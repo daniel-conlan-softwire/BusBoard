@@ -5,7 +5,8 @@ interface stopPoint {
     distance: number
 }
 
-interface busArrival {
+export interface busArrival {
+    id: string,
     timeToStation: number
 }
 
@@ -34,8 +35,7 @@ async function getNearestStopPoints(latitude: number, longitude: number, radius:
 }
 
 async function getNextBusesFromStopcode(stopcode: string, noBuses: number): Promise<busArrival[]> {
-    const stopCode = '490008660N';
-    const requestURL = `https://api.tfl.gov.uk/StopPoint/${stopCode}/Arrivals`;
+    const requestURL = `https://api.tfl.gov.uk/StopPoint/${stopcode}/Arrivals`;
 
     const response = await fetch(requestURL);
     const jsonBody = await response.json();
@@ -60,7 +60,7 @@ async function getNextBusesFromStopPoints(stopPoints: stopPoint[], noBuses: numb
 
 }
 
-async function getNextBusesFromPostcode(postcode: string, noBuses: number, noStops: number) {
+export async function getNextBusesFromPostcode(postcode: string, noBuses: number, noStops: number) {
 
     const [latitude, longitude] = await getLatitudeLongitudeFromPostcode(postcode);
     const nearestStopPoints = await getNearestStopPoints(latitude, longitude, 200, noStops);
@@ -68,40 +68,3 @@ async function getNextBusesFromPostcode(postcode: string, noBuses: number, noSto
     return await getNextBusesFromStopPoints(nearestStopPoints, noBuses);
 
 }
-
-async function main() {
-    const postcode = 'NW5 1TL'
-    const noBuses = 5;
-    const noStops = 2;
-
-    const nextBuses = await getNextBusesFromPostcode(postcode, noBuses, noStops);
-    console.log(nextBuses);
-}
-
-main();
-// getNextBusesFromPostcode(postcode, 5);
-
-// const postcode = '';
-// const stopcode = getStopCode(postcode);
-// const requestURL = `https://api.tfl.gov.uk/StopPoint/${stopCode}/Arrivals`;
-
-// fetch(requestURL).then((response) => {
-//     response.json().then((jsonBody) => {
-
-//         jsonBody = jsonBody.sort((first : any, second : any) => {
-//             const arrival1 = first.expectedArrival;
-//             const arrival2 = second.expectedArrival;
-
-//             return (arrival1 > arrival2) ? 1 : (arrival1 < arrival2) ? -1 : 0;
-//         });
-
-//         for (let i = 0; i <= 4; i++) {
-//             console.log(`${jsonBody[i].vehicleId}: ${jsonBody[i].expectedArrival}`);
-//         }
-//     });
-// }) 
-
-
-
-
-

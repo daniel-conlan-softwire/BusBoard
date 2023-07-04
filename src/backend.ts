@@ -43,7 +43,7 @@ async function getNearestStopPoints(latitude: number, longitude: number, radius:
 
 }
 
-async function getNextBusesFromStopcode(stopcode: string, noBuses: number): Promise<busArrival[]> {
+export async function getNextBusesFromStopcode(stopcode: string, noBuses: number): Promise<busArrival[]> {
     const requestURL = `https://api.tfl.gov.uk/StopPoint/${stopcode}/Arrivals`;
 
     const response = await fetch(requestURL);

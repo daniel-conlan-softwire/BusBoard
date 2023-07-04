@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ArrivalList } from "./ArrivalList";
 import {
     getNextBusesFromPostcode,
@@ -6,6 +6,8 @@ import {
     stopPoint,
     stopInformation,
 } from "./backend";
+import { arrivalListProps } from "./ArrivalList";
+import { title } from "process";
 
 async function getBuses(postcode: string): Promise<any> {
     // very basic testing string, you'll likely return a list of strings or JSON objects instead!
@@ -14,7 +16,26 @@ async function getBuses(postcode: string): Promise<any> {
 }
 
 function App(): React.ReactElement {
-    const [postcode, setPostcode] = useState("");
+
+    const styles: { [key: string]: React.CSSProperties } = {
+      background: {
+        height: '100%'
+      } ,
+      title: {
+        textAlign: "center",
+        background : "#8758FF",
+        margin: "0px 0px 10px 0px" 
+      } ,
+      postcodeBar: {
+        textAlign: "center",
+        color: "white"
+      }
+    }
+
+
+
+
+    const [postcode, setPostcode] = useState("NW5 1TL");
     const [tableData, setTableData] = useState<{
         [key: string]: stopInformation;
     }>({});
@@ -26,11 +47,10 @@ function App(): React.ReactElement {
         const data = await getBuses(postcode);
         setTableData(data);
     }
-
     return (
-        <>
-            <h1> BusBoard </h1>
-            <form action="" onSubmit={formHandler}>
+        <div style={styles.background}>
+            <h1 style={styles.title}> BusBoard </h1>
+            <form action="" onSubmit={formHandler} style={styles.postcodeBar}>
                 Postcode: &nbsp;
                 <input
                     type="text"
@@ -39,19 +59,17 @@ function App(): React.ReactElement {
                         setPostcode(data.target.value)
                     }
                 />
-                <br />
-                <input type="submit" value="Submit" />
+                <input type="submit" value="Wayhay!" />
             </form>
             {Object.entries(tableData).map(([stopcode, stopInformation]) => {
                 return (
                     <ArrivalList
                         key={stopcode}
                         stopDetails={stopInformation.stopDetails}
-                        arrivals={stopInformation.arrivals}
                     />
                 );
             })}
-        </>
+        </ div>
     );
 }
 

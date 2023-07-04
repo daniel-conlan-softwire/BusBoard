@@ -1,13 +1,22 @@
 import fetch from 'node-fetch';
 
-interface stopPoint {
+export interface stopPoint {
     id: string,
     distance: number
+    commonName: string
 }
 
 export interface busArrival {
     id: string,
+    direction: string,
+    expectedArrival: string,
+    lineName: string,
     timeToStation: number
+}
+
+export interface stopInformation {
+    stopDetails: stopPoint,
+    arrivals: busArrival[]
 }
 
 async function getLatitudeLongitudeFromPostcode(postcode: string): Promise<[number, number]> {
@@ -49,14 +58,20 @@ async function getNextBusesFromStopcode(stopcode: string, noBuses: number): Prom
 
 async function getNextBusesFromStopPoints(stopPoints: stopPoint[], noBuses: number) {
 
-    const busesPerStopcode: {[key: string]: busArrival[]} = {};
+    const stopInfoPerStopcode: { [key: string]: stopInformation } = {};
 
     for (let stopPoint of stopPoints) {
         const nextBuses = await getNextBusesFromStopcode(stopPoint.id, noBuses)
-        busesPerStopcode[stopPoint.id] = nextBuses;
+
+        const stopInfo: stopInformation = {
+            arrivals: nextBuses,
+            stopDetails: stopPoint
+        };
+
+        stopInfoPerStopcode[stopPoint.id] = stopInfo;
     }
 
-    return busesPerStopcode;
+    return stopInfoPerStopcode;
 
 }
 

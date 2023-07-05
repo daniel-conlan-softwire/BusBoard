@@ -5,7 +5,7 @@ import {
     busArrival,
     stopPoint,
     stopInformation,
-} from "./backend";
+} from "../backend";
 import { arrivalListProps } from "./ArrivalList";
 import { title } from "process";
 
@@ -16,29 +16,31 @@ async function getBuses(postcode: string): Promise<any> {
 }
 
 function App(): React.ReactElement {
-
     const styles: { [key: string]: React.CSSProperties } = {
-      background: {
-        height: '100%'
-      } ,
-      title: {
-        textAlign: "center",
-        background : "#8758FF",
-        margin: "0px 0px 10px 0px" 
-      } ,
-      postcodeBar: {
-        textAlign: "center",
-        color: "white"
-      }
-    }
-
-
-
+        background: {
+            height: "100%",
+        },
+        title: {
+            textAlign: "center",
+            background: "#8758FF",
+            margin: "0px 0px 10px 0px",
+        },
+        postcodeBar: {
+            textAlign: "center",
+            color: "white",
+        },
+        arrivalsGrid: {
+            display: "grid",
+            gridTemplateColumns: "auto auto",
+            justifyContent: "center",
+        },
+    };
 
     const [postcode, setPostcode] = useState("NW5 1TL");
     const [tableData, setTableData] = useState<{
         [key: string]: stopInformation;
     }>({});
+
 
     async function formHandler(
         event: React.FormEvent<HTMLFormElement>
@@ -61,15 +63,19 @@ function App(): React.ReactElement {
                 />
                 <input type="submit" value="Wayhay!" />
             </form>
-            {Object.entries(tableData).map(([stopcode, stopInformation]) => {
-                return (
-                    <ArrivalList
-                        key={stopcode}
-                        stopDetails={stopInformation.stopDetails}
-                    />
-                );
-            })}
-        </ div>
+
+            <div style={styles.arrivalsGrid}>
+                {Object.entries(tableData).map(([stopcode, stopInformation]) => {
+                        return (
+                            <ArrivalList
+                                key={stopcode}
+                                stopDetails={stopInformation.stopDetails}
+                            />
+                        );
+                    }
+                )}
+            </div>
+        </div>
     );
 }
 

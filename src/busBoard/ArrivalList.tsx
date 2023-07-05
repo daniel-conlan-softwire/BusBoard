@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import ArrivalCard from "./ArrivalCard";
-import { busArrival, stopPoint } from "./backend";
-import { getNextBusesFromStopcode } from "./backend";
+import { busArrival, stopPoint } from "../backend";
+import { getNextBusesFromStopcode } from "../backend";
 
 export interface arrivalListProps {
     stopDetails: stopPoint;
@@ -35,7 +35,7 @@ export function ArrivalList(props: arrivalListProps): React.ReactElement {
         }, 30000);
 
         return () => clearInterval(interval);
-    }, []);
+    }, [arrivals]);
 
     return (
         <div style={styles.border}>

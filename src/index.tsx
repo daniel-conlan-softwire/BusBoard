@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import App from './App';
-import Alternate from './Alternate';
+import BusBoardApp from './busBoard/BusBoardApp';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import MapBoardApp from './mapBoard/MapBoardApp';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -13,8 +13,8 @@ root.render(
   <React.StrictMode>
     <BrowserRouter>
       <Routes>
-        <Route path='/' element={<App />} />
-        <Route path='/alternate' element={<Alternate />} />
+        <Route path='/busBoard' element={<BusBoardApp />} />
+        <Route path='/' element={<MapBoardApp />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>

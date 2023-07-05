@@ -4,6 +4,8 @@ export interface stopPoint {
     id: string,
     distance: number
     commonName: string
+    lat: number,
+    lon: number
 }
 
 export interface busArrival {
@@ -19,7 +21,14 @@ export interface stopInformation {
     arrivals: busArrival[]
 }
 
-async function getLatitudeLongitudeFromPostcode(postcode: string): Promise<[number, number]> {
+export async function getNearestStopPointsFromPostcode(postcode: string, radius: number, noStops: number): Promise<stopPoint[]> {
+    const [lat, long] = await getLatitudeLongitudeFromPostcode(postcode);
+    const nearestStopPoints = await getNearestStopPoints(lat, long, radius, noStops);
+
+    return nearestStopPoints;
+}
+
+export async function getLatitudeLongitudeFromPostcode(postcode: string): Promise<[number, number]> {
     const requestURL = `https://api.postcodes.io/postcodes/${postcode}`;
 
     const response = await fetch(requestURL);
@@ -29,7 +38,7 @@ async function getLatitudeLongitudeFromPostcode(postcode: string): Promise<[numb
 }
 
 
-async function getNearestStopPoints(latitude: number, longitude: number, radius: number, noStops: number): Promise<stopPoint[]> {
+export async function getNearestStopPoints(latitude: number, longitude: number, radius: number, noStops: number): Promise<stopPoint[]> {
     const requestURL = `https://api.tfl.gov.uk/StopPoint/?lat=${latitude}&lon=${longitude}&stopTypes=NaptanPublicBusCoachTram&radius=${radius}`
 
     const response = await fetch(requestURL);
@@ -40,7 +49,6 @@ async function getNearestStopPoints(latitude: number, longitude: number, radius:
     });
 
     return jsonBody.stopPoints.slice(0, noStops);
-
 }
 
 export async function getNextBusesFromStopcode(stopcode: string, noBuses: number): Promise<busArrival[]> {

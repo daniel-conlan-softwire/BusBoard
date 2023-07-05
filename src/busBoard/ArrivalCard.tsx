@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { busArrival } from "./backend";
+import { busArrival } from "../backend";
 import { CountdownTimer } from "./CountdownTimer";
 
 interface ArrivalCardProps {

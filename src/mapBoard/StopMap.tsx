@@ -30,7 +30,6 @@ function calculateZoom(lat: number, searchRadius: number): number {
 }
 
 function StopMap(props: stopMapProps): React.ReactElement {
-
     let centerMarkerIcon: string;
     let markerIcon: string;
 
@@ -50,7 +49,6 @@ function StopMap(props: stopMapProps): React.ReactElement {
                 scrollWheelZoom={true}
                 style={{
                     height: "500px",
-                    
                 }}
             >
                 <ChangeView
@@ -71,11 +69,7 @@ function StopMap(props: stopMapProps): React.ReactElement {
                             iconAnchor: [25, 50],
                         })
                     }
-                >
-                    <Popup>
-                        A pretty CSS3 popup. <br /> Easily customizable.
-                    </Popup>
-                </Marker>
+                />
 
                 {props.stopPoints.map((stopPoint) => {
                     return (
@@ -95,7 +89,9 @@ function StopMap(props: stopMapProps): React.ReactElement {
                                 },
                             }}
                         >
-                            <Popup>{stopPoint.commonName}</Popup>
+                            <Popup>{`${stopPoint.commonName}: ${Math.round(
+                                stopPoint.distance
+                            )}m`}</Popup>
                         </Marker>
                     );
                 })}

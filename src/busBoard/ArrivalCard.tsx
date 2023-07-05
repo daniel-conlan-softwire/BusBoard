@@ -59,7 +59,7 @@ export function ArrivalCard(props: ArrivalCardProps): React.ReactElement {
                         {props.arrival.expectedArrival.slice(11, 19)}
                     </div>
                 </div>
-                <div style={styles.infoSection}>Time to Arrival: <CountdownTimer initialTime={props.arrival.timeToStation} />s</div>
+                <div style={styles.infoSection}>Time to Arrival: <CountdownTimer initialTime={props.arrival.timeToStation} /></div>
             </div>
         </>
     );

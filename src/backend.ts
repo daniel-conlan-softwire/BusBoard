@@ -21,13 +21,6 @@ export interface stopInformation {
     arrivals: busArrival[]
 }
 
-export async function getNearestStopPointsFromPostcode(postcode: string, radius: number, noStops: number): Promise<stopPoint[]> {
-    const [lat, long] = await getLatitudeLongitudeFromPostcode(postcode);
-    const nearestStopPoints = await getNearestStopPoints(lat, long, radius, noStops);
-
-    return nearestStopPoints;
-}
-
 export async function getLatitudeLongitudeFromPostcode(postcode: string): Promise<[number, number]> {
     const requestURL = `https://api.postcodes.io/postcodes/${postcode}`;
 

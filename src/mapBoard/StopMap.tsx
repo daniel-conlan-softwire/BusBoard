@@ -96,6 +96,8 @@ function StopMap(props: stopMapProps): React.ReactElement {
                     );
                 })}
             </MapContainer>
+
+            {(props.toggledMode) ? <img src="../markers/toggledCenterMarker.png"></img> : <></>}
         </>
     );
 }
